@@ -21,6 +21,7 @@ with { pkgs = import ./nix { }; }; {
 
   xdg.configFile."tridactyl/tridactylrc".source = ./dots/tridactylrc;
   xdg.configFile."kitty/kitty.conf".source = ./dots/kitty.conf;
+  xdg.configFile."nixpkgs/config.nix".text = "{ allowUnfree = true; }";
 
   services.lorri.enable = true;
   programs.direnv = {

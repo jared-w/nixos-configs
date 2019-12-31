@@ -107,6 +107,7 @@ with {
   services.printing.enable = true;
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "yes";
+  services.fwupd.enable = true;
 
   location.provider = "geoclue2";
   services.redshift = {
