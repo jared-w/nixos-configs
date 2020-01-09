@@ -20,14 +20,19 @@ with { pkgs = import ./nix { }; }; {
   };
 
   xdg.configFile."tridactyl/tridactylrc".source = ./dots/tridactylrc;
-  xdg.configFile."kitty/kitty.conf".source = ./dots/kitty.conf;
+  xdg.configFile."kitty".source = ./dots/kitty;
   xdg.configFile."nixpkgs/config.nix".text = "{ allowUnfree = true; }";
 
   services.lorri.enable = true;
-  programs.direnv = {
-    enable = true;
-    enableZshIntegration = true;
-  };
+  programs.direnv.enable = true;
+  programs.fzf.enable = true;
+  # programs.zsh = {
+  #   enable = true;
+  #   dotDir = ".config/zsh";
+  #   # Already configured with zplugin
+  #   enableCompletions = false;
+  #   initExtraBeforeCompInit =
+  # };
 
   programs.git = {
     enable = true;
@@ -40,12 +45,13 @@ with { pkgs = import ./nix { }; }; {
         ui = true;
         diff-highlight = {
           oldNormal = "red bold";
-          oldHighlight = "red bold 52";
+          oldHighlight = "white red";
           newNormal = "green bold";
-          newHighlight = "green bold 22";
+          newHighlight = "white green";
         };
         diff = {
           meta = "11";
+          func = "12";
           frag = "magenta bold";
           commit = "yellow bold";
           old = "red bold";
@@ -53,6 +59,7 @@ with { pkgs = import ./nix { }; }; {
           whitespace = "red reverse";
         };
       };
+      diff-so-fancy.markEmptyLines = false;
     };
   };
 }

@@ -4,7 +4,8 @@ with {
 }; {
   imports = [
     "${sources.nixos-hardware}/common/cpu/intel"
-    "${sources.nixos-hardware}/common/pc/ssd"
+    "${sources.nixos-hardware}/common/pc/laptop/ssd"
+    "${sources.nixos-hardware}/common/pc/laptop/acpi_call.nix"
     "${sources.nixos-hardware}/common/pc/laptop"
     "${sources.home-manager}/nixos"
     ./nixpkgs.nix
@@ -65,13 +66,6 @@ with {
     nodejs_latest
     universal-ctags
 
-    # ncurses
-
-    # ((import sources.all-hies { }).selection {
-    #   selector = p: { inherit (p) ghc865; };
-    # })
-    # (import sources.ghcide-nix { }).ghcide-ghc865
-
     # Programs implicitly relied on in shell
     lsd
     bat
@@ -84,22 +78,12 @@ with {
     _JAVA_AWT_WM_NONREPARENTING = "1";
     VISUAL = "nvim";
     EDITOR = "nvim";
-    # Scroll with a toushcreen in firefox
     MOZ_USE_XINPUT2 = "1";
-    # Relied on by my nvim configs
-    # RUST_SRC_PATH = "${
-    #     (pkgs.latest.rustChannels.nightly.rust.override {
-    #       extensions = [ "rust-src" ];
-    #     })
-    #   }/lib/rustlib/src/rust/src";
   };
 
+  # for home-manager zsh
+  # environment.pathsToLink = [ "/share/zsh" ];
   programs.ssh.startAgent = true;
-  programs.zsh = {
-    enable = false;
-    # enableCompletion = false;
-    # promptInit = ":";
-  };
 
   services.thermald.enable = true;
   services.interception-tools.enable = true;
@@ -108,6 +92,7 @@ with {
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "yes";
   services.fwupd.enable = true;
+  services.throttled.enable = true;
 
   location.provider = "geoclue2";
   services.redshift = {
@@ -139,7 +124,9 @@ with {
       enable = true;
       autoLogin.enable = true;
       autoLogin.user = "jared";
+      autoSuspend = false;
     };
+    displayManager.setupCommands = "stty -ixon";
 
     desktopManager.gnome3.enable = true;
     windowManager.xmonad = {
@@ -151,7 +138,11 @@ with {
     };
   };
 
+  security.pam.services.gdm.enableGnomeKeyring = true;
+  security.pam.services.gdm-autologin.enableGnomeKeyring = true;
+
   virtualisation.docker.enable = true;
+  virtualisation.docker.enableOnBoot = false;
 
   users.users.jared = {
     isNormalUser = true;
