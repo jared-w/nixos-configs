@@ -184,6 +184,8 @@ with { pkgs = import ./nix { }; }; {
   };
 
   home-manager.users.jared = import ./home.nix;
+  systemd.services.home-manager-jared.preStart =
+    "${pkgs.nix}/bin/nix-env -i -E";
 
   nix.optimise.automatic = true;
 }
