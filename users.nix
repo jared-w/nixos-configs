@@ -16,9 +16,4 @@
       "dialout"
     ];
   };
-
-  home-manager.users.jared = import ./home.nix;
-  home-manager.useGlobalPkgs = true;
-  systemd.services.home-manager-jared.preStart =
-    "${pkgs.nix}/bin/nix-env -i -E";
 }
